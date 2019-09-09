@@ -7,13 +7,22 @@
             </el-col>
             <el-col :span="6" class="user">
                 <div class="userinfo">
-                    <img src="user.avatar" alt="" class="avatar">
+                    <img :src="user.avatar" alt="" class="avatar">
                     <div class="welcome">
                         <p class="name comename">欢迎访问</p>
-                        <p class="name avatarname">zrp</p>
+                        <p class="name avatarname">{{ user.name }}</p>
                     </div>
                     <span class="username">
                         <!-- 下拉 -->
+                        <el-dropdown trigger="click" @command="setDialogInfo">
+                          <span class="el-dropdown-link">
+                            <i class="el-icon-caret-bottom el-icon--right"></i>
+                          </span>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command ="info">个人信息</el-dropdown-item>
+                            <el-dropdown-item command ="logout">退出</el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
                     </span>
                 </div>
             </el-col>
@@ -24,7 +33,38 @@
 // import Hea from ''
 export default {
     name: 'head-nav',
-    components:{}
+    components:{},
+    computed: {
+      user(){
+        return this.$store.getters.user;
+      }
+    },
+    methods: {
+      setDialogInfo(cmdItem){
+        // console.log(cmdItem);
+        switch(cmdItem) {
+          case "info":
+            this.showInfolist();
+            break;
+          case "logout":
+            this.logout();
+            break;
+        }
+      },
+      showInfolist(){
+        // console.log(this.user);
+        this.$router.push("/infoShow");
+      },
+      logout(){
+        // 清除token
+        localStorage.removeItem('eleToken');
+        // 设置vuex store
+        this.$store.dispatch('clearCurrentState');
+        // 跳转
+        this.$router.push("/login");
+        
+      }
+    },
 }
 </script>
 <style scoped>
@@ -32,7 +72,7 @@ export default {
   width: 100%;
   height: 60px;
   min-width: 600px;
-  padding: 5px;
+  /* padding: 5px; */
   background: #324057;
   color: #fff;
   border-bottom: 1px solid #1f2d3d;

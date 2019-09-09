@@ -36,6 +36,10 @@ const actions = {
   },
   setUser:({commit},user) => {
     commit(types.SET_USER,user)
+  },
+  clearCurrentState:({commit})=> {
+    commit(types.SET_AUTH,false);
+    commit(types.SET_USER,false);
   }
 }
 export default new Vuex.Store({
