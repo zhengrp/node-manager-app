@@ -11,7 +11,7 @@
         class="el-menu-vertical-demo"
         background-color="#324057"
         text-color="#fff"
-        active-text-color="#409eff"
+        active-text-color="#409EFF"
       >
         <router-link to="/home">
           <el-menu-item index="0">
@@ -87,12 +87,12 @@ export default {
 <style scoped>
 .menu_page {
   position: fixed;
-  top: 71px;
+  top: 61px;
 
   left: 0;
   min-height: 100%;
   background-color: #324057;
-  /* z-index: 9; */
+  z-index: 9;
 }
 .el-menu {
   border: none;
