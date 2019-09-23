@@ -1,10 +1,11 @@
 <template>
   <div class="dialog">
     <el-dialog
-      title="添加资资金信息"
+      :title="dialog.title"
       :visible.sync="dialog.show"
       :close-on-press-escape="false"
       :modal-append-to-body="false"
+      center
     >
       <div class="form">
         <el-form
@@ -48,19 +49,11 @@
 export default {
   name: "dialog",
   props: {
-    dialog: Object
+    dialog: Object,
+    formData: Object
   },
   data() {
     return {
-      formData: {
-        type: "",
-        describe: "",
-        income: "",
-        expend: "",
-        cash: "",
-        remark: "",
-        id: ""
-      },
       typeList: ["提现", "提现手续费", "充值", "优惠券", "充值礼券", "转账"],
       form_rules: {
         describe: [
@@ -78,13 +71,14 @@ export default {
   },
   methods: {
       onSubmit(form){
+          const url = this.dialog.option == "add" ? "add" : `edit/${ this.formData.id }`
           this.$refs[form].validate(valid => {
               if(valid){
-                  this.$axios.post('/api/profiles/add',this.formData)
+                  this.$axios.post(`/api/profiles/${ url }`,this.formData)
                     .then(res => {
                         // 提示添加成功
                         this.$message({
-                            message: "数据添加成功",
+                            message: `${this.dialog.title}成功`,
                             type: "success"
                         })
                         // 影藏对话框

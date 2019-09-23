@@ -50,21 +50,32 @@
         </el-table-column>
       </el-table>
     </div>
-    <Dialog :dialog="dialog" @update="getProfile"></Dialog>
+    <Dialog :dialog="dialog" :formData="formData" @update="getProfile"></Dialog>
   </div>
 </template>
 <script>
-import Dialog from '../components/Dialog'
+import Dialog from "../components/Dialog";
 export default {
   name: "fundList",
-  components:{
+  components: {
     Dialog
   },
   data() {
     return {
       tableData: [],
-      dialog:{
-        show: false
+      dialog: {
+        show: false,
+        title: "",
+        option: "edit"
+      },
+      formData: {
+        type: "",
+        describe: "",
+        income: "",
+        expend: "",
+        cash: "",
+        remark: "",
+        id: ""
       }
     };
   },
@@ -72,31 +83,59 @@ export default {
     this.getProfile();
   },
   methods: {
+    //刷新页面
     getProfile() {
       this.$axios.get("/api/profiles").then(res => {
         this.tableData = res.data;
       });
     },
+    // 编辑
     handleEdit(index, row) {
-      console.log(index, row);
+      // console.log(index, row);
+      (this.dialog = {
+        title: "修改资金信息",
+        show: true,
+        option: "edit"
+      }),
+        (this.formData = row);
     },
+    // 删除
     handleDelete(index, row) {
       console.log(index, row);
+      this.$axios
+        .delete(`/api/profiles/delete/${row._id}`)
+        .then(res => {
+          this.$message({
+            message: `数据删除成功`,
+            type: "success"
+          });
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: "error"
+          });
+        });
     },
-    handleAdd(){
-      this.dialog.show = true;
+    // 添加
+    handleAdd() {
+      this.dialog = {
+        title: "添加资金信息",
+        show: true,
+        option: "add"
+      };
     }
   }
 };
 </script>
 <style scoped>
-.fillContainer{
+.fillContainer {
   width: 100%;
   height: 100%;
   padding: 16px;
   box-sizing: border-box;
 }
-.btnRight{
+.btnRight {
   float: right;
 }
 </style>
