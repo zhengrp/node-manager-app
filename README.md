@@ -3,6 +3,11 @@
 #### 介绍
 node+vue+element搭建的后台管理系统
 
+外层为node+express+jwt框架搭建的后端接口，数据库使用moongoDB.
+已实现注册、登录、获取、添加、编辑、删除等接口，并在前端中调用。
+
+client路径下为前端项目，使用vue全家桶+element-ui，功能参见使用说明。
+
 #### 软件架构
 软件架构说明
 node+vue+element
@@ -24,7 +29,7 @@ node+vue+element
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/154605_99506d49_2197057.png "屏幕截图.png")
 4.退出
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/162449_84782f0b_2197057.png "屏幕截图.png")
-5、资金流水   
+5、资金流水  已实现数据的展示，添加，删除、编辑、分页，以及根据时间筛选功能，普通员工没有添加，删除、编辑权限。
     5.1管理员
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/161606_b9892aa9_2197057.png "屏幕截图.png")
         5.1.1编辑
