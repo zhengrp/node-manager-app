@@ -3,9 +3,12 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser') 
 const passport = require('passport')
 
+
+
 const app =express()
 // 映入路由
 const users = require('./routes/api/user')
+const profiles = require('./routes/api/profiles.js')
 
 // 映入数据库配置
 const db = require('./config/keys')
@@ -27,8 +30,9 @@ require('./config/passport')(passport)
 //     res.send("hello")
 // })
 
-// routes
+// 使用routes
 app.use('/api/users',users)
+app.use('/api/profiles',profiles)
 
 const port = process.env.PORT || 5000
 

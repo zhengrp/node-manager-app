@@ -49,6 +49,22 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <el-row>
+        <el-col :span="24">
+          <div class="pagination">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="paginations.page_index"
+              :page-sizes="paginations.page_sizes"
+              :page-size="paginations.page_size"
+              :layout="paginations.layout"
+              :total="paginations.total"
+            ></el-pagination>
+          </div>
+        </el-col>
+      </el-row>
     </div>
     <Dialog :dialog="dialog" :formData="formData" @update="getProfile"></Dialog>
   </div>
@@ -62,6 +78,14 @@ export default {
   },
   data() {
     return {
+      paginations: {
+        page_index: 1, //当前页
+        total: 0, //总记录数
+        page_size: 5, //页大小
+        page_sizes: [5, 10, 15, 20],
+        layout: "total, sizes, prev, pager, next, jumper" //翻页属性
+      },
+      allTableData: [],
       tableData: [],
       dialog: {
         show: false,
@@ -85,19 +109,67 @@ export default {
   methods: {
     //刷新页面
     getProfile() {
-      this.$axios.get("/api/profiles").then(res => {
-        this.tableData = res.data;
+      this.$axios
+        .get("/api/profiles")
+        .then(res => {
+          this.allTableData = res.data;
+          this.setPaginations();
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: "error"
+          });
+        });
+    },
+    //获取分页数据
+    setPaginations() {
+      //分页属性设置 条数
+      this.paginations.total = this.allTableData.length;
+      // 设置默认分页数据
+      this.tableData = this.allTableData.filter((iten, index) => {
+        return index < this.paginations.page_size;
       });
+    },
+    //改变每页大小
+    handleSizeChange(size) {
+      this.paginations.page_size = size;
+      this.tableData = this.allTableData.filter((iten, index) => {
+        return index < size;
+      });
+    },
+    //改变页码
+    handleCurrentChange(page) {
+      // 获取当前页
+      let index = this.paginations.page_size * (page - 1);
+      // 数据总数
+      let nums = this.paginations.page_size * page;
+      // tables容器
+      let tables = [];
+      for (let i = index; i < nums; i++) {
+        if (this.allTableData[i]) {
+          tables.push(this.allTableData[i])
+        }
+        this.tableData = tables;
+      }
     },
     // 编辑
     handleEdit(index, row) {
-      // console.log(index, row);
-      (this.dialog = {
+      // console.log(row);
+      this.dialog = {
         title: "修改资金信息",
         show: true,
         option: "edit"
-      }),
-        (this.formData = row);
+      };
+      this.formData = {
+        type: row.type,
+        describe: row.describe,
+        income: row.income,
+        expend: row.expend,
+        cash: row.cash,
+        remark: row.remark,
+        id: row._id
+      };
     },
     // 删除
     handleDelete(index, row) {
@@ -109,6 +181,7 @@ export default {
             message: `数据删除成功`,
             type: "success"
           });
+          this.getProfile();
         })
         .catch(err => {
           this.$message({
@@ -137,5 +210,9 @@ export default {
 }
 .btnRight {
   float: right;
+}
+.pagination {
+  text-align: right;
+  margin-top: 10px;
 }
 </style>
