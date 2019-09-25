@@ -34,7 +34,7 @@ node+vue+element
         4.1.4日期筛选
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/161853_e2e65fa3_2197057.png "屏幕截图.png")
     4.2员工
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/155346_da2b274e_2197057.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/162235_32f77ac6_2197057.png "屏幕截图.png")
     
 5.信息管理
     5.1管理员
