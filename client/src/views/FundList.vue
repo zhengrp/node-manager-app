@@ -2,16 +2,16 @@
   <div class="fillContainer">
     <el-form :inline="true" ref="add_data" :medel="searchData">
       <!-- 筛选 -->
-      <el-from-item label="按照时间筛选：">
+      <el-form-item label="按照时间筛选：">
         <el-date-picker v-model="searchData.startTime" type="datetime" placeholder="选择开始时间"></el-date-picker>
         --
         <el-date-picker v-model="searchData.endTime" type="datetime" placeholder="选择结束时间"></el-date-picker>
-      </el-from-item>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" size="medium" icon="search" @click="handleSearch" style="margin-left:10px;">筛选</el-button>
       </el-form-item>
       <el-form-item class="btnRight">
-        <el-button type="primary" size="small" icon="view" @click="handleAdd">添加</el-button>
+        <el-button type="primary" size="small" icon="view" @click="handleAdd" v-if="user.identity == 'manager'">添加</el-button>
       </el-form-item>
     </el-form>
     <div class="table_container">
@@ -41,7 +41,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" align="center" width="220"></el-table-column>
-        <el-table-column label="操作" align="center" width="320">
+        <el-table-column label="操作" align="center" width="320"  v-if="user.identity == 'manager'">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -116,6 +116,11 @@ export default {
         id: ""
       }
     };
+  },
+  computed: {
+    user(){
+      return this.$store.getters.user;
+    }
   },
   created() {
     this.getProfile();

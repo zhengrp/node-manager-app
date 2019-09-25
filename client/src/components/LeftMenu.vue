@@ -13,7 +13,7 @@
         text-color="#fff"
         active-text-color="#409EFF"
       >
-        <router-link to="/home">
+        <router-link to="/index">
           <el-menu-item index="0">
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
