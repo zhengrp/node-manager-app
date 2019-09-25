@@ -1,6 +1,15 @@
 <template>
   <div class="fillContainer">
-    <el-form :inline="true" ref="add_data">
+    <el-form :inline="true" ref="add_data" :medel="searchData">
+      <!-- 筛选 -->
+      <el-from-item label="按照时间筛选：">
+        <el-date-picker v-model="searchData.startTime" type="datetime" placeholder="选择开始时间"></el-date-picker>
+        --
+        <el-date-picker v-model="searchData.endTime" type="datetime" placeholder="选择结束时间"></el-date-picker>
+      </el-from-item>
+      <el-form-item>
+        <el-button type="primary" size="medium" icon="search" @click="handleSearch" style="margin-left:10px;">筛选</el-button>
+      </el-form-item>
       <el-form-item class="btnRight">
         <el-button type="primary" size="small" icon="view" @click="handleAdd">添加</el-button>
       </el-form-item>
@@ -78,6 +87,11 @@ export default {
   },
   data() {
     return {
+      searchData:{//筛选时间
+        startTime:"",
+        endTime:""
+      },
+      filterTableData:[],//筛选后的表数据
       paginations: {
         page_index: 1, //当前页
         total: 0, //总记录数
@@ -113,6 +127,7 @@ export default {
         .get("/api/profiles")
         .then(res => {
           this.allTableData = res.data;
+          this.filterTableData = res.data;
           this.setPaginations();
         })
         .catch(err => {
@@ -148,7 +163,7 @@ export default {
       let tables = [];
       for (let i = index; i < nums; i++) {
         if (this.allTableData[i]) {
-          tables.push(this.allTableData[i])
+          tables.push(this.allTableData[i]);
         }
         this.tableData = tables;
       }
@@ -197,6 +212,26 @@ export default {
         show: true,
         option: "add"
       };
+    },
+    // 筛选
+    handleSearch() {
+      if(!this.searchData.startTime || !this.searchData.startTime){
+        this.$message({
+          type: "warning",
+          message: "请选择时间区间"
+        })
+        return;
+      }
+      // console.log(this.searchData);
+      const sTime = this.searchData.startTime.getTime();
+      const eTime = this.searchData.endTime.getTime();
+      this.allTableData = this.filterTableData.filter(item => {
+        // console.log(item);
+        let date = new Date(item.date);
+        let time = date.getTime();
+        return (time >= sTime && time <= eTime);   
+      })
+      this.setPaginations();
     }
   }
 };
