@@ -1,71 +1,75 @@
 <template>
-    <header class='head-nav'>
-        <el-row>
-            <el-col :span="6" class="logo-container">
-                <img src="../assets/logo.png" class="logo" alt="">
-                <span class="title" >资金后台管理系统</span>
-            </el-col>
-            <el-col :span="6" class="user">
-                <div class="userinfo">
-                    <img :src="user.avatar" alt="" class="avatar">
-                    <div class="welcome">
-                        <p class="name comename">欢迎访问</p>
-                        <p class="name avatarname">{{ user.name }}</p>
-                    </div>
-                    <span class="username">
-                        <!-- 下拉 -->
-                        <el-dropdown trigger="click" @command="setDialogInfo">
-                          <span class="el-dropdown-link">
-                            <i class="el-icon-caret-bottom el-icon--right"></i>
-                          </span>
-                          <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command ="info">个人信息</el-dropdown-item>
-                            <el-dropdown-item command ="logout">退出</el-dropdown-item>
-                          </el-dropdown-menu>
-                        </el-dropdown>
-                    </span>
-                </div>
-            </el-col>
-        </el-row>
-    </header>
+  <header class="head-nav">
+    <el-row>
+      <el-col :span="6" class="logo-container">
+        <img src="../assets/logo.png" class="logo" alt />
+        <span class="title">资金后台管理系统</span>
+      </el-col>
+      <el-col :span="6" class="user">
+        <div class="userinfo">
+          <img :src="user.avatar" alt class="avatar" />
+          <div class="welcome">
+            <p class="name comename">欢迎访问</p>
+            <p class="name avatarname">{{ user.name }}</p>
+          </div>
+          <span class="username">
+            <!-- 下拉 -->
+            <el-dropdown trigger="click" @command="setDialogInfo">
+              <span class="el-dropdown-link">
+                <i class="el-icon-caret-bottom el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                <el-dropdown-item command="logout">退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </span>
+        </div>
+      </el-col>
+    </el-row>
+  </header>
 </template>
 <script>
 // import Hea from ''
 export default {
-    name: 'head-nav',
-    components:{},
-    computed: {
-      user(){
-        return this.$store.getters.user;
+  name: "head-nav",
+  components: {},
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  methods: {
+    setDialogInfo(cmdItem) {
+      // console.log(cmdItem);
+      switch (cmdItem) {
+        case "info":
+          this.showInfolist();
+          break;
+        case "logout":
+          this.logout();
+          break;
       }
     },
-    methods: {
-      setDialogInfo(cmdItem){
-        // console.log(cmdItem);
-        switch(cmdItem) {
-          case "info":
-            this.showInfolist();
-            break;
-          case "logout":
-            this.logout();
-            break;
+    showInfolist() {
+      // console.log(this.user);
+      this.$router.push("/infoShow");
+    },
+    logout() {
+      // 清除token
+      localStorage.removeItem("eleToken");
+      // 设置vuex store
+      this.$store.dispatch("clearCurrentState");
+      this.$message({
+        message: "已退出，将跳转到登录页",
+        type: "info",
+        onClose: () => {
+          this.$router.push("/login");
         }
-      },
-      showInfolist(){
-        // console.log(this.user);
-        this.$router.push("/infoShow");
-      },
-      logout(){
-        // 清除token
-        localStorage.removeItem('eleToken');
-        // 设置vuex store
-        this.$store.dispatch('clearCurrentState');
-        // 跳转
-        this.$router.push("/login");
-        
-      }
-    },
-}
+      });
+    }
+  }
+};
 </script>
 <style scoped>
 .head-nav {

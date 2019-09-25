@@ -3,19 +3,30 @@
     <el-form :inline="true" ref="add_data" :medel="searchData">
       <!-- 筛选 -->
       <el-form-item label="按照时间筛选：">
-        <el-date-picker v-model="searchData.startTime" type="datetime" placeholder="选择开始时间"></el-date-picker>
-        --
+        <el-date-picker v-model="searchData.startTime" type="datetime" placeholder="选择开始时间"></el-date-picker>--
         <el-date-picker v-model="searchData.endTime" type="datetime" placeholder="选择结束时间"></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="medium" icon="search" @click="handleSearch" style="margin-left:10px;">筛选</el-button>
+        <el-button
+          type="primary"
+          size="medium"
+          icon="search"
+          @click="handleSearch"
+          style="margin-left:10px;"
+        >筛选</el-button>
       </el-form-item>
       <el-form-item class="btnRight">
-        <el-button type="primary" size="small" icon="view" @click="handleAdd" v-if="user.identity == 'manager'">添加</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          icon="view"
+          @click="handleAdd"
+          v-if="user.identity == 'manager'"
+        >添加</el-button>
       </el-form-item>
     </el-form>
     <div class="table_container">
-      <el-table :data="tableData" style="width: 100%" max-height="450" border>
+      <el-table :data="tableData" style="width: 100%" max-height="450">
         <el-table-column type="index" label="序号" align="center" width="70"></el-table-column>
         <el-table-column prop="date" label="创建时间" width="250" align="center">
           <template slot-scope="scope">
@@ -41,7 +52,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" align="center" width="220"></el-table-column>
-        <el-table-column label="操作" align="center" width="320"  v-if="user.identity == 'manager'">
+        <el-table-column label="操作" align="center" width="320" v-if="user.identity == 'manager'">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -87,11 +98,12 @@ export default {
   },
   data() {
     return {
-      searchData:{//筛选时间
-        startTime:"",
-        endTime:""
+      searchData: {
+        //筛选时间
+        startTime: "",
+        endTime: ""
       },
-      filterTableData:[],//筛选后的表数据
+      filterTableData: [], //筛选后的表数据
       paginations: {
         page_index: 1, //当前页
         total: 0, //总记录数
@@ -118,7 +130,7 @@ export default {
     };
   },
   computed: {
-    user(){
+    user() {
       return this.$store.getters.user;
     }
   },
@@ -194,24 +206,31 @@ export default {
     // 删除
     handleDelete(index, row) {
       console.log(index, row);
-      this.$axios
-        .delete(`/api/profiles/delete/${row._id}`)
-        .then(res => {
-          this.$message({
-            message: `数据删除成功`,
-            type: "success"
+      this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.$axios
+          .delete(`/api/profiles/delete/${row._id}`)
+          .then(res => {
+            this.$message({
+              message: `数据删除成功`,
+              type: "success"
+            });
+            this.getProfile();
+          })
+          .catch(err => {
+            this.$message({
+              message: err,
+              type: "error"
+            });
           });
-          this.getProfile();
-        })
-        .catch(err => {
-          this.$message({
-            message: err,
-            type: "error"
-          });
-        });
+      });
     },
     // 添加
     handleAdd() {
+      this.formData = {};
       this.dialog = {
         title: "添加资金信息",
         show: true,
@@ -220,11 +239,11 @@ export default {
     },
     // 筛选
     handleSearch() {
-      if(!this.searchData.startTime || !this.searchData.startTime){
+      if (!this.searchData.startTime || !this.searchData.startTime) {
         this.$message({
           type: "warning",
           message: "请选择时间区间"
-        })
+        });
         return;
       }
       // console.log(this.searchData);
@@ -234,8 +253,8 @@ export default {
         // console.log(item);
         let date = new Date(item.date);
         let time = date.getTime();
-        return (time >= sTime && time <= eTime);   
-      })
+        return time >= sTime && time <= eTime;
+      });
       this.setPaginations();
     }
   }

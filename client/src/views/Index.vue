@@ -26,10 +26,10 @@ export default {
 }
 .rightContainer {
   position: relative;
-  top: 0;
+  top: -1px;
   left: 180px;
   width: calc(100% - 180px);
-  height: calc(100% - 71px);
+  height: calc(100% - 61px);
   overflow: auto;
 } 
 </style>
