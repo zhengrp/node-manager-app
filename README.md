@@ -22,21 +22,23 @@ node+vue+element
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/153944_34020317_2197057.png "屏幕截图.png")
 3. 首页
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/154605_99506d49_2197057.png "屏幕截图.png")
-4、资金流水   
-    4.1管理员
+4.退出
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/162449_84782f0b_2197057.png "屏幕截图.png")
+5、资金流水   
+    5.1管理员
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/161606_b9892aa9_2197057.png "屏幕截图.png")
-        4.1.1编辑
+        5.1.1编辑
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/160327_b0484108_2197057.png "屏幕截图.png")
-        4.1.2删除
+        5.1.2删除
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/161310_a2c01657_2197057.png "屏幕截图.png")
-        4.1.3添加
+        5.1.3添加
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/161446_b0e26f52_2197057.png "屏幕截图.png")
-        4.1.4日期筛选
+        5.1.4日期筛选
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/161853_e2e65fa3_2197057.png "屏幕截图.png")
-    4.2员工
+    5.2员工
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/162235_32f77ac6_2197057.png "屏幕截图.png")
     
-5.信息管理
+6.信息管理
     5.1管理员
     ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/154936_a954db68_2197057.png "屏幕截图.png")
     5.2员工
