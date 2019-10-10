@@ -11,7 +11,7 @@ const users = require('./routes/api/user')
 const profiles = require('./routes/api/profiles.js')
 
 // 映入数据库配置
-const db = require('./config/keys')
+const db = require('./config/keys_prod')
 // 使用中间件body-parser
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
